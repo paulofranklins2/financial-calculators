@@ -1,7 +1,13 @@
 package com.paulofranklins;
 
+import java.util.Scanner;
+
+import static com.paulofranklins.PrintScreens.runningMainScreen;
+
 public class Main {
     public static void main(String[] args) {
-        System.out.println("Hello, World!");
+        Scanner scanner = new Scanner(System.in);
+        runningMainScreen(scanner);
+        scanner.close();
     }
 }
