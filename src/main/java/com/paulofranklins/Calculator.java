@@ -14,9 +14,13 @@ public class Calculator {
         return rate / 100 / 365;
     }
 
-    public static double calculateMortgage(double principal, double annualRate, int years) {
+    private static int getTotalMonths(int years) {
+        return years * 12;
+    }
+
+    public static double calculateMortgage(double principal, double annualRate, int year) {
         double monthlyRate = monthlyRate(annualRate);
-        int totalMonths = years * 12;
+        int totalMonths = getTotalMonths(year);
 
         //M=P×(i*(1+i)^n / ((1+i)^n)-1)
         double ratePower = Math.pow(1 + monthlyRate, totalMonths);
@@ -24,24 +28,23 @@ public class Calculator {
     }
 
     //Calculator 2: future value calculator
-    public static double calculateFutureValue(double principal, double rate, int time) {
+    public static double calculateFutureValue(double principal, double rate, int year) {
         //FV = P × (1 + (r / 365))^(365 × t)
         double dailyRate = dailyRate(rate);
         double growthFactor = 1 + dailyRate;
-        double exponent = 365 * time;
+        double exponent = 365 * year;
 
         double compoundInterest = Math.pow(growthFactor, exponent);
         return principal * compoundInterest;
     }
 
     //Calculator 3: presente value calculator
-    public static double calculatePresentValue(double monthlyPayout, double annualRate, int years) {
-        double monthlyRate = monthlyRate(annualRate);
-        int totalMonths = years * 12;
-        if (monthlyRate == 0) {
-            return monthlyPayout * totalMonths;
-        }
-        return monthlyPayout * (1 - Math.pow(1 + monthlyRate, -totalMonths)) / monthlyRate;
+    public static double calculatePresentValue(double principal, double rate, int year) {
+        double monthlyRate = monthlyRate(rate);
+        int totalMonths = getTotalMonths(year);
+
+        // PV = P × (1 - (1 + i)^-n) / i
+        return principal * (1 - Math.pow(1 + monthlyRate, -totalMonths)) / monthlyRate;
     }
 
 }
